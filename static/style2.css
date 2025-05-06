@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 400px;
+    margin: 30px auto;
+  }
+  
+  label, input, select, button {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #218838;
+    cursor: pointer;
+  }
+  
+  #mensaje {
+    margin-top: 20px;
+    font-weight: bold;
+  }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Control de Estado</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+  <h2>Activar Estado</h2>
+
+  <label for="codigo">Código:</label>
+  <input type="text" id="codigo" placeholder="Ej. ABC123">
+
+  <label for="tiempo">Duración (minutos):</label>
+  <select id="tiempo"></select>
+
+  <button onclick="activarEstado()">Activar</button>
+
+  <div id="mensaje"></div>
+
+  <script src="{{ url_for('static', filename='script2.js') }}"></script>
+</body>
+</html>
