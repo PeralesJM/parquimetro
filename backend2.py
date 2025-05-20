@@ -22,7 +22,7 @@ def activar_estado():
     if not codigo or not (30 <= tiempo <= 150):           # Valida que el código no esté vacío y el tiempo esté en orquilla
         return jsonify({"error": "Datos inválidos"}), 400
     try:
-        expiracion = datetime.now() + timedelta(minutes=tiempo) # Calcula la hora de expiración
+        expiracion = datetime.utcnow() + timedelta(minutes=tiempo) # Calcula la hora de expiración
         supabase.table("aparcamientos") \
             .update({"estado": 0}) \
             .lte("tiempo", datetime.utcnow().isoformat()) \
