@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, render_template # request (permite po
 from flask_cors import CORS                                # Permite peticiones desde otros dominios (frontend en otro servidor)
 from datetime import datetime, timedelta                   # Manejo de horas
 from supabase import create_client, Client
+from zoneinfo import ZoneInfo
 import os
 app = Flask(__name__)
 CORS(app)                                                  # Habilitar CORS 
@@ -22,7 +23,9 @@ def activar_estado():
     if not codigo or not (30 <= tiempo <= 150):           # Valida que el código no esté vacío y el tiempo esté en orquilla
         return jsonify({"error": "Datos inválidos"}), 400
     try:
-        expiracion = datetime.utcnow() + timedelta(minutes=tiempo) # Calcula la hora de expiración
+        zona_madrid = ZoneInfo("Europe/Madrid")
+        ahora = datetime.now(tz=zona_madrid)
+        expiracion = ahora + timedelta(minutes=tiempo)
         supabase.table("aparcamientos") \
             .update({"estado": 0}) \
             .lte("tiempo", datetime.utcnow().isoformat()) \
@@ -33,7 +36,7 @@ def activar_estado():
             .eq("codigo", codigo) \
             .execute()
         if response.data:
-            return jsonify({"mensaje": f"Estado activado para {codigo} hasta {expiracion.strftime('%H:%M:%S')}"}), 200
+            return jsonify({"mensaje": f"Estado activado para {codigo}", "expiracion": expiracion.isoformat()}), 200
         else:
             return jsonify({"error": "No se encontró el aparcamiento con ese código"}), 404
     except Exception as e:

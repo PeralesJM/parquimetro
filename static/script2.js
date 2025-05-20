@@ -26,9 +26,18 @@ async function activarEstado() {
     });
 
     const data = await res.json();
+    console.log(data.expiracion);
 
     if (res.ok) {
-      mensajeDiv.textContent = data.mensaje;
+      // Extraemos la hora de expiración y la mostramos en hora local
+      if (data.expiracion) {
+        const fechaExpiracion = new Date(data.expiracion); // Convertir la fecha ISO a objeto Date
+        const horaLocal = fechaExpiracion.toLocaleTimeString(); // Convertir a hora local
+
+        mensajeDiv.textContent = `Estado activado para ${codigo} hasta ${horaLocal}`;
+      } else {
+        mensajeDiv.textContent = data.mensaje;
+      }
       mensajeDiv.style.color = "green";
     } else {
       mensajeDiv.textContent = data.error || "Error desconocido.";
